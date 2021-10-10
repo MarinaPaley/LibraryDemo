@@ -1,18 +1,24 @@
-﻿using System;
-
-namespace Domain
+﻿namespace Domain
 {
-    public class Author
+    using System;
+    using Staff.Extensions;
+
+    public class Author : IEquatable<Author>
     {
-        public Author(int id, string firstName, string middleName, string lastName)
+        public Author(int id, string lastName, string firstName, string middleName = null)
         {
-            Id = id;
-            if (firstName == null)
-                throw new ArgumentNullException(nameof(firstName), "FirstName cannot be null");
-            FirstName = firstName;
+            this.Id = id;
+
+            // this.FirstName = firstName.TrimOrNull() ?? throw new ArgumentOutOfRangeException(nameof(firstName));
+
+            var trimmed = firstName.TrimOrNull();
+            if (trimmed == null)
+                throw new ArgumentOutOfRangeException(nameof(firstName));
+            this.FirstName = trimmed;
+
             if (lastName == null)
                 throw new ArgumentNullException(nameof(lastName), "LastName cannot be null");
-            LastName = lastName; 
+            LastName = lastName;
             MiddleName = middleName;
         }
 
@@ -24,13 +30,27 @@ namespace Domain
 
         public string LastName { get; protected set; }
 
-        public string FullName => ToString();
+        public string FullName => $"{LastName} {FirstName[0]}. {MiddleName?[0]}.".Trim();
 
-        public override string ToString()
+        public override string ToString() => this.FullName;
+
+        public override bool Equals(object obj)
         {
-            if (MiddleName == null)
-                return $"{ LastName} {FirstName[0]}.";
-            return $"{ LastName} {FirstName[0]}. {MiddleName[0]}.";
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return Equals((Author) obj);
+        }
+
+        public bool Equals(Author other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return this.Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id;
         }
     }
 }
