@@ -2,9 +2,17 @@
 {
     using System;
     using Staff.Extensions;
-
+    /// <summary>
+    /// Автор.
+    /// </summary>
     public class Author : IEquatable<Author>
-    {
+    {/// <summary>
+    /// Конструктор на автора.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="lastName"></param>
+    /// <param name="firstName"></param>
+    /// <param name="middleName"></param>
         public Author(int id, string lastName, string firstName, string middleName = null)
         {
             this.Id = id;
@@ -17,13 +25,18 @@
             this.FirstName = trimmed;
 
             if (lastName == null)
-                throw new ArgumentNullException(nameof(lastName), "LastName cannot be null");
+                throw new ArgumentNullException(nameof(lastName));
             LastName = lastName;
-            MiddleName = middleName;
+            MiddleName = middleName.TrimOrNull();
         }
-
+        /// <summary>
+        /// Уникальный идентификатор.
+        /// </summary>
         public int Id { get; protected set; }
 
+        /// <summary>
+        /// Имя.
+        /// </summary>
         public string FirstName { get; protected set; }
 
         public string MiddleName { get; protected set; }
