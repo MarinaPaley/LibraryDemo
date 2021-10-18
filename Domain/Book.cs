@@ -4,18 +4,23 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Книга.
+    /// </summary>
     public class Book
     {
         public Book(int id, string title)
         {
             Id = id;
 
-            if (title == null)
+            var trimmedTitle = title.TrimOrNull();
+
+            if (trimmedTitle == null)
             {
                 throw new ArgumentNullException(nameof(title));
             }
-
-            Title = title;
+            
+            Title = trimmedTitle;
         }
 
         public int Id { get; protected set; }

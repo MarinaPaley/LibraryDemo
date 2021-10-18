@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Domain">
-      <HintPath>..\Domain\bin\Debug\Domain.dll</HintPath>
+      <HintPath>C:\Users\student\Documents\visual studio 2015\Projects\LibraryDemo\Domain\bin\Debug\Domain.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
