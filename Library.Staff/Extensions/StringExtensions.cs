@@ -1,4 +1,4 @@
-﻿namespace Staff.Extensions
+﻿namespace Library.Staff.Extensions
 {
     public static class StringExtensions
     {

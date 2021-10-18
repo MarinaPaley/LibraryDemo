@@ -1,6 +1,4 @@
-﻿
-
-using Domain;
+﻿using Library.Domain;
 
 namespace Library.Demo
 {

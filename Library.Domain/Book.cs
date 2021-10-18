@@ -1,38 +1,66 @@
-﻿namespace Domain
+﻿// <copyright file="Book.cs" company="Васильева Марина Алексеевна">
+// Copyright (c) Васильева Марина Алексеевна. All rights reserved.
+// </copyright>
+
+
+namespace Library.Domain
 {
-    using Staff.Extensions;
     using System;
     using System.Collections.Generic;
+    using Staff.Extensions;
 
     /// <summary>
     /// Книга.
     /// </summary>
     public class Book
     {
-        public Book(int id, string title)
+        public Book(int id, string title, params Author[] authors) 
+            : this(id, title, new HashSet<Author>(authors))
         {
-            Id = id;
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Book"/>.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="title"></param>
+        public Book(int id, string title, ISet<Author> authors = null)
+        {
+            this.Id = id;
 
             var trimmedTitle = title.TrimOrNull();
 
-            if (trimmedTitle == null)
-            {
-                throw new ArgumentNullException(nameof(title));
-            }
+            this.Title = trimmedTitle ?? throw new ArgumentOutOfRangeException(nameof(title));
 
-            Title = trimmedTitle;
+            if (authors != null)
+            {
+                foreach (var author in authors)
+                {
+                    this.Authors.Add(author);
+                    author.AddBook(this);
+                }
+            }
         }
 
+        /// <summary>
+        /// Идентификатор.
+        /// </summary>
         public int Id { get; protected set; }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title { get; protected set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ISet<Author> Authors { get; protected set; } = new HashSet<Author>();
 
+        /// <inheritdoc/>
         public override string ToString()
         {
-            // return $"{this.Title} {this.Authors.Join()}".Trim();
-            return $"{Title} {string.Join(", ", Authors)}"; //.Trim();
+            return $"{this.Title} {this.Authors.Join()}".Trim();
         }
     }
 }
