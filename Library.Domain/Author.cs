@@ -1,14 +1,11 @@
 ﻿// <copyright file="Author.cs" company="Васильева Марина Алексеевна">
 // Copyright (c) Васильева Марина Алексеевна. All rights reserved.
 // </copyright>
-
-using System.Collections.Generic;
-
 namespace Library.Domain
 {
     using System;
-
-    using Staff.Extensions;
+    using System.Collections.Generic;
+    using Library.Staff.Extensions;
 
     /// <summary>
     /// Автор.
