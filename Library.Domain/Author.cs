@@ -1,18 +1,25 @@
-﻿namespace Domain
+﻿// <copyright file="Author.cs" company="Васильева Марина Алексеевна">
+// Copyright (c) Васильева Марина Алексеевна. All rights reserved.
+// </copyright>
+namespace Library.Domain
 {
     using System;
-    using Staff.Extensions;
+    using System.Collections.Generic;
+    using Library.Staff.Extensions;
+
     /// <summary>
     /// Автор.
     /// </summary>
     public class Author : IEquatable<Author>
-    {/// <summary>
-     /// Конструктор на автора.
-     /// </summary>
-     /// <param name="id"></param>
-     /// <param name="lastName"></param>
-     /// <param name="firstName"></param>
-     /// <param name="middleName"></param>
+    {
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Author"/>.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lastName"></param>
+        /// <param name="firstName"></param>
+        /// <param name="middleName"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public Author(int id, string lastName, string firstName, string middleName = null)
         {
             this.Id = id;
@@ -20,15 +27,13 @@
             // this.FirstName = firstName.TrimOrNull() ?? throw new ArgumentOutOfRangeException(nameof(firstName));
 
             var trimmed = firstName.TrimOrNull();
-            if (trimmed == null)
-                throw new ArgumentOutOfRangeException(nameof(firstName));
-            this.FirstName = trimmed;
 
-            if (lastName == null)
-                throw new ArgumentNullException(nameof(lastName));
-            LastName = lastName;
-            MiddleName = middleName.TrimOrNull();
+            this.FirstName = trimmed ?? throw new ArgumentOutOfRangeException(nameof(firstName));
+
+            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
+            this.MiddleName = middleName.TrimOrNull();
         }
+
         /// <summary>
         /// Уникальный идентификатор.
         /// </summary>
@@ -45,8 +50,19 @@
 
         public string FullName => $"{LastName} {FirstName[0]}. {MiddleName?[0]}.".Trim();
 
+        public ISet<Book> Books { get; protected set; } = new HashSet<Book>();
+
+        public bool AddBook(Book book)
+        {
+            return book == null 
+                ? throw new ArgumentNullException(nameof(book))
+                : this.Books.Add(book);
+        }
+
+        /// <inheritdoc/>
         public override string ToString() => this.FullName;
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -54,6 +70,7 @@
             return Equals((Author)obj);
         }
 
+        /// <inheritdoc cref="IEquatable{T}"/>
         public bool Equals(Author other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -61,6 +78,7 @@
             return this.Id == other.Id;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return this.Id;
