@@ -35,26 +35,34 @@ namespace Library.Domain
         }
 
         /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Author"/>.
+        /// </summary>
+        [Obsolete("For ORM", true)]
+        protected Author()
+        {
+        }
+
+        /// <summary>
         /// Уникальный идентификатор.
         /// </summary>
-        public int Id { get; protected set; }
+        public virtual int Id { get; protected set; }
 
         /// <summary>
         /// Имя.
         /// </summary>
-        public string FirstName { get; protected set; }
+        public virtual string FirstName { get; protected set; }
 
-        public string MiddleName { get; protected set; }
+        public virtual string MiddleName { get; protected set; }
 
-        public string LastName { get; protected set; }
+        public virtual string LastName { get; protected set; }
 
-        public string FullName => $"{LastName} {FirstName[0]}. {MiddleName?[0]}.".Trim();
+        public virtual string FullName => $"{LastName} {FirstName[0]}. {MiddleName?[0]}.".Trim();
 
-        public ISet<Book> Books { get; protected set; } = new HashSet<Book>();
+        public virtual ISet<Book> Books { get; protected set; } = new HashSet<Book>();
 
-        public bool AddBook(Book book)
+        public virtual bool AddBook(Book book)
         {
-            return book == null 
+            return book == null
                 ? throw new ArgumentNullException(nameof(book))
                 : this.Books.Add(book);
         }
@@ -71,7 +79,7 @@ namespace Library.Domain
         }
 
         /// <inheritdoc cref="IEquatable{T}"/>
-        public bool Equals(Author other)
+        public virtual bool Equals(Author other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

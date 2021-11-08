@@ -40,7 +40,7 @@
     <Rule Id="SA1636" Action="Warning" />
     <Rule Id="SA1637" Action="Warning" />
     <Rule Id="SA1638" Action="Warning" />
-    <Rule Id="SA1639" Action="Warning" />
+    <Rule Id="SA1639" Action="None" />
     <Rule Id="SA1640" Action="Warning" />
     <Rule Id="SA1641" Action="Warning" />
     <Rule Id="SA1642" Action="Warning" />
