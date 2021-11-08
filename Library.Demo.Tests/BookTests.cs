@@ -1,11 +1,9 @@
-
-
-using System;
-
 namespace Library.Demo.Tests
 {
+    using System;
     using NUnit.Framework;
     using Library.Domain;
+
     [TestFixture]
     public class BookTests
     {

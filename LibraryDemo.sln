@@ -9,12 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Demo", "Library.Dem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Staff", "Library.Staff\Library.Staff.csproj", "{7328C4CF-FC4C-4EBA-B226-CC09192DB044}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A43D522-89CA-467B-B2A1-F68F2FAD5B50}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Demo.Tests", "Library.Demo.Tests\Library.Demo.Tests.csproj", "{05A02E2B-3BCE-4417-8A11-02861E10C939}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Demo.Tests", "Library.Demo.Tests\Library.Demo.Tests.csproj", "{05A02E2B-3BCE-4417-8A11-02861E10C939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
