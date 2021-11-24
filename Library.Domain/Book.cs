@@ -60,12 +60,12 @@ namespace Library.Domain
         public virtual int Id { get; protected set; }
 
         /// <summary>
-        /// 
+        /// Заголовок.
         /// </summary>
-        public virtual string Title { get; protected set; }
+        public virtual string Title { get; set; }
 
         /// <summary>
-        /// 
+        /// Авторы.
         /// </summary>
         public virtual ISet<Author> Authors { get; protected set; } = new HashSet<Author>();
 
