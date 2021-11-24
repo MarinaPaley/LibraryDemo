@@ -9,7 +9,7 @@ namespace Library.Demo
     using System.Linq;
 
     using Library.DataAccess;
-    using Library.Demo;
+    using Library.DataAccess.Repositories;
     using Library.Domain;
 
     /// <summary>
@@ -20,6 +20,7 @@ namespace Library.Demo
         private static void Main()
         {
             var author = new Author(1, "Толстой", "Лев", "Николаевич");
+
             var book = new Book(1, "Война и мир", author);
 
             Console.WriteLine($"{book} {author}");
@@ -43,6 +44,20 @@ namespace Library.Demo
 
             using (var session = sessionFactory.OpenSession())
             {
+                var repo = new BookRepository();
+
+                // TODO: Для наглядности нужно много книг с разным авторским составом!
+                Console.WriteLine("Results through repo:");
+                repo.Filter(session, b => b.Authors.Count < 2)
+                    .SelectMany(b => b.Authors)
+                    .Distinct()
+                    .ToList()
+                    .ForEach(Console.WriteLine);
+                Console.WriteLine(new string('-', 25));
+            }
+
+            using (var session = sessionFactory.OpenSession())
+            {
                 var tmpBook = session.Query<Book>().First();
 
                 Console.WriteLine(tmpBook);
@@ -61,14 +76,15 @@ namespace Library.Demo
                     }
 
                     var persistentBook = session.Get<Book>(newBook.Id);
-                    // persistentBook.Title = "Война и миръ";
-                    // session.SaveOrUpdate(persistentBook);
+                    //// persistentBook.Title = "Война и миръ";
+                    //// session.SaveOrUpdate(persistentBook);
                     session.Delete(persistentBook);
                     transaction.Commit();
                 }
 
                 session.Flush();
             }
+            
         }
     }
 }

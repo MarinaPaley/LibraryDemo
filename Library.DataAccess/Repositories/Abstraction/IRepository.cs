@@ -7,15 +7,16 @@ namespace Library.DataAccess.Repositories.Abstraction
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using NHibernate;
 
     public interface IRepository<TEntity>
     {
-        TEntity Get(int id);
+        TEntity Get(ISession session, int id);
 
-        TEntity Find(Expression<Func<TEntity, bool>> predicate);
+        TEntity Find(ISession session, Expression<Func<TEntity, bool>> predicate);
 
-        IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll(ISession session);
 
-        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> Filter(ISession session, Expression<Func<TEntity, bool>> predicate);
     }
 }

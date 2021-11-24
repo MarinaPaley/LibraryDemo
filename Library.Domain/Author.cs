@@ -1,6 +1,7 @@
 ﻿// <copyright file="Author.cs" company="Васильева Марина Алексеевна">
 // Copyright (c) Васильева Марина Алексеевна. All rights reserved.
 // </copyright>
+
 namespace Library.Domain
 {
     using System;
@@ -15,22 +16,19 @@ namespace Library.Domain
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Author"/>.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="lastName"></param>
-        /// <param name="firstName"></param>
-        /// <param name="middleName"></param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="id"> Идентификатор. </param>
+        /// <param name="lastName"> Фамилия. </param>
+        /// <param name="firstName"> Имя. </param>
+        /// <param name="middleName"> Отчество. </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// В случае если <paramref name="lastName"/> или <paramref name="firstName"/> <see langword="null"/>, пустая строка
+        /// или строка, содержащая только пробельные символы.
+        /// </exception>
         public Author(int id, string lastName, string firstName, string middleName = null)
         {
             this.Id = id;
-
-            // this.FirstName = firstName.TrimOrNull() ?? throw new ArgumentOutOfRangeException(nameof(firstName));
-
-            var trimmed = firstName.TrimOrNull();
-
-            this.FirstName = trimmed ?? throw new ArgumentOutOfRangeException(nameof(firstName));
-
-            this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
+            this.FirstName = firstName.TrimOrNull() ?? throw new ArgumentOutOfRangeException(nameof(firstName));
+            this.LastName = lastName.TrimOrNull() ?? throw new ArgumentOutOfRangeException(nameof(lastName));
             this.MiddleName = middleName.TrimOrNull();
         }
 
@@ -52,14 +50,38 @@ namespace Library.Domain
         /// </summary>
         public virtual string FirstName { get; protected set; }
 
-        public virtual string MiddleName { get; protected set; }
-
+        /// <summary>
+        /// Фамилия.
+        /// </summary>
         public virtual string LastName { get; protected set; }
 
-        public virtual string FullName => $"{LastName} {FirstName[0]}. {MiddleName?[0]}.".Trim();
+        /// <summary>
+        /// Отчество.
+        /// </summary>
+        public virtual string MiddleName { get; protected set; }
 
+        /// <summary>
+        /// Полное имя.
+        /// </summary>
+        public virtual string FullName => $"{this.LastName} {this.FirstName[0]}. {this.MiddleName?[0]}.".Trim();
+
+        /// <summary>
+        /// Множество книг.
+        /// </summary>
         public virtual ISet<Book> Books { get; protected set; } = new HashSet<Book>();
 
+        /// <summary>
+        /// Метод, добавляющий книгу автору.
+        /// </summary>
+        /// <param name="book"> Добавляемая книга. </param>
+        /// <returns>
+        /// Флаг успешности выполнения операции:
+        /// <see langword="true"/> – книга была успешно добавлена,
+        /// <see langword="false"/> в противном случае.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// В случае если <paramref name="book"/> – <see langword="null"/>.
+        /// </exception>
         public virtual bool AddBook(Book book)
         {
             return book == null
@@ -73,23 +95,16 @@ namespace Library.Domain
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return Equals((Author)obj);
+            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || this.Equals(obj as Author));
         }
 
         /// <inheritdoc cref="IEquatable{T}"/>
         public virtual bool Equals(Author other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return this.Id == other.Id;
+            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || this.Id == other.Id);
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return this.Id;
-        }
+        public override int GetHashCode() => this.Id;
     }
 }

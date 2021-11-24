@@ -13,15 +13,18 @@ namespace Library.DataAccess.Repositories
 
     public class BookRepository : IRepository<Book>
     {
-        // TODO: Откуда берем сессию?
-        private readonly ISession session;
+        public Book Get(ISession session, int id) => session?.Get<Book>(id);
 
-        public Book Get(int id) => this.session.Get<Book>(id);
+        public Book Find(ISession session, Expression<Func<Book, bool>> predicate)
+        {
+            return this.GetAll(session).FirstOrDefault(predicate);
+        }
 
-        public Book Find(Expression<Func<Book, bool>> predicate) => this.GetAll().FirstOrDefault(predicate);
+        public IQueryable<Book> GetAll(ISession session) => session?.Query<Book>();
 
-        public IQueryable<Book> GetAll() => this.session.Query<Book>();
-
-        public IQueryable<Book> Filter(Expression<Func<Book, bool>> predicate) => this.GetAll().Where(predicate);
+        public IQueryable<Book> Filter(ISession session, Expression<Func<Book, bool>> predicate)
+        {
+            return this.GetAll(session).Where(predicate);
+        }
     }
 }

@@ -18,9 +18,9 @@ namespace Library.Domain
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Book"/>.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="title"></param>
-        /// <param name="authors"></param>
+        /// <param name="id"> Идентификатор. </param>
+        /// <param name="title"> Название. </param>
+        /// <param name="authors"> Авторы. </param>
         public Book(int id, string title, params Author[] authors)
             : this(id, title, new HashSet<Author>(authors))
         {

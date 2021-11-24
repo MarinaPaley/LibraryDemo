@@ -21,37 +21,31 @@ namespace Library.DataAccess.Tests.Repositories
             // arrange
             var targetId = 1;
 
-            PrepareBookInStorage(targetId);
+            using var session = GetSession();
+
+            PrepareBookInStorage(session, targetId);
 
             var repository = GetRepository();
 
             // act
-            var result = repository.Get(targetId);
+            var result = repository.Get(session, targetId);
 
             // assert
             Assert.IsNotNull(result);
             Assert.AreEqual(targetId, result.Id);
         }
 
-        private static void PrepareBookInStorage(int targetId)
+        private static void PrepareBookInStorage(ISession session, int targetId)
         {
             var book = new Book(targetId, "Тестовая");
 
-            using (var session = GetSession())
-            {
-                session.Save(book);
-                session.Flush();
-            }
+            session.Save(book);
+            session.Flush();
+            session.Clear();
         }
 
-        private static BookRepository GetRepository()
-        {
-            throw new System.NotImplementedException();
-        }
+        private static BookRepository GetRepository() => new BookRepository();
 
-        private static ISession GetSession()
-        {
-            throw new System.NotImplementedException();
-        }
+        private static ISession GetSession() => TestsConfigurator.BuildSessionForTest(showSql: true);
     }
 }

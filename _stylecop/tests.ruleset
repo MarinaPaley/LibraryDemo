@@ -113,6 +113,7 @@
     <Rule Id="SX1309" Action="None" />
     <Rule Id="SX1309S" Action="None" />
   </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers.MaintainabilityRules">
     <Rule Id="SA1119" Action="Warning" />
     <Rule Id="SA1400" Action="Warning" />
     <Rule Id="SA1401" Action="Warning" />
