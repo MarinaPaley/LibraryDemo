@@ -1,23 +1,30 @@
-﻿namespace Library.Demo
+﻿// <copyright file="Program.cs" company="Васильева Марина Алексеевна">
+// Copyright (c) Васильева Марина Алексеевна. All rights reserved.
+// </copyright>
+
+namespace Library.Demo
 {
     using System;
-    using System.Configuration;
+    //// using System.Configuration;
     using System.Linq;
 
     using Library.DataAccess;
     using Library.Demo;
     using Library.Domain;
 
-    class Program
+    /// <summary>
+    /// Точка входа в программу.
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             var author = new Author(1, "Толстой", "Лев", "Николаевич");
             var book = new Book(1, "Война и мир", author);
 
             Console.WriteLine($"{book} {author}");
 
-            // var connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+            //// var connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
             var settings = new Settings();
 
@@ -39,6 +46,28 @@
                 var tmpBook = session.Query<Book>().First();
 
                 Console.WriteLine(tmpBook);
+            }
+
+            using (var session = sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    session.Clear();
+                    var persistentAuthor = session.Load<Author>(1);
+                    var newBook = persistentAuthor.Books.FirstOrDefault();
+                    if (newBook is null)
+                    {
+                        throw new ArgumentNullException(nameof(newBook));
+                    }
+
+                    var persistentBook = session.Get<Book>(newBook.Id);
+                    // persistentBook.Title = "Война и миръ";
+                    // session.SaveOrUpdate(persistentBook);
+                    session.Delete(persistentBook);
+                    transaction.Commit();
+                }
+
+                session.Flush();
             }
         }
     }

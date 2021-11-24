@@ -21,11 +21,18 @@ namespace Library.DataAccess.Mappings
 
             this.Id(x => x.Id);
 
-            this.Map(x => x.FirstName);
-            this.Map(x => x.MiddleName);
-            this.Map(x => x.LastName);
+            this.Map(x => x.FirstName)
+                .Not.Nullable();
 
-            this.HasManyToMany(x => x.Books);
+            this.Map(x => x.MiddleName)
+                .Not.Nullable();
+
+            this.Map(x => x.LastName)
+                .Nullable();
+
+            // see: https://stackoverflow.com/a/713666/17310482
+            this.HasManyToMany(x => x.Books)
+                .Cascade.Delete();
         }
     }
 }
