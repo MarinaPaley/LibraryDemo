@@ -18,5 +18,11 @@ namespace Library.DataAccess.Repositories.Abstraction
         IQueryable<TEntity> GetAll(ISession session);
 
         IQueryable<TEntity> Filter(ISession session, Expression<Func<TEntity, bool>> predicate);
+
+        bool Create<TEntity>(TEntity entity);
+
+        bool Delete<TEntity>(TEntity entity);
+
+        bool Update<TEntity>(TEntity oldEntity, TEntity newEntity);
     }
 }
