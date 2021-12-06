@@ -25,10 +25,10 @@ namespace Library.DataAccess.Mappings
                 .Not.Nullable();
 
             this.Map(x => x.MiddleName)
-                .Not.Nullable();
+                .Nullable();
 
             this.Map(x => x.LastName)
-                .Nullable();
+                .Not.Nullable();
 
             // see: https://stackoverflow.com/a/713666/17310482
             this.HasManyToMany(x => x.Books)

@@ -65,6 +65,11 @@ namespace Library.Domain
         public virtual string Title { get; set; }
 
         /// <summary>
+        /// Полка.
+        /// </summary>
+        public virtual Shelf Shelf { get; protected set; }
+
+    /// <summary>
         /// Авторы.
         /// </summary>
         public virtual ISet<Author> Authors { get; protected set; } = new HashSet<Author>();

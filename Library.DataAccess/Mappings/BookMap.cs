@@ -27,6 +27,8 @@ namespace Library.DataAccess.Mappings
             this.HasManyToMany(x => x.Authors)
                 .Cascade.Delete()
                 .Inverse();
+
+            this.References(x => x.Shelf);
         }
     }
 }
